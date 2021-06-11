@@ -79,6 +79,14 @@ class _MyHomePageState extends State<MyHomePage> {
     {
       'name': 'Tazeem',
       'class': 7
+    },
+    {
+      'name': 'Najaf',
+      'class': 6
+    },
+    {
+      'name': 'Izhar',
+      'class': 5
     }
   ];
 
@@ -93,105 +101,152 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            SizedBox(height: 20,),
-            Text('Select a value'),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: customSearchableDropDown(
-                items: listToSearch,
-                label: 'Select Subject',
-                decoration: BoxDecoration(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListView(
+            children: <Widget>[
+              SizedBox(height: 20,),
+              Text('Menu Mode',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold
+                ),),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CustomSearchableDropDown(
+                  primaryColor: Colors.red,
+                  menuMode: true,
+                  labelStyle: TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold
+                  ),
+                  items: listToSearch,
+                  label: 'Select Name',
+                  prefixIcon:  Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: Icon(Icons.search),
+                  ),
+                  dropDownMenuItems: listToSearch?.map((item) {
+                    return item['name'];
+                  })?.toList() ??
+                      [],
+                  onChanged: (value){
+                    if(value!=null)
+                    {
+                      selected = value['class'].toString();
+                    }
+                    else{
+                      selected=null;
+                    }
+                  },
+                ),
+              ),
+              SizedBox(height: 20,),
+              Text('Select a value',
+              style: TextStyle(
+                fontWeight: FontWeight.bold
+              ),),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CustomSearchableDropDown(
+                  items: listToSearch,
+                  label: 'Select Name',
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          color: Colors.blue
+                      )
+                  ),
+                  prefixIcon:  Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: Icon(Icons.search),
+                  ),
+                  dropDownMenuItems: listToSearch?.map((item) {
+                    return item['name'];
+                  })?.toList() ??
+                      [],
+                  onChanged: (value){
+                    if(value!=null)
+                    {
+                      selected = value['class'].toString();
+                    }
+                    else{
+                      selected=null;
+                    }
+                  },
+                ),
+              ),
+              Text('Multi Select',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold
+                ),),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CustomSearchableDropDown(
+                  items: listToSearch,
+                  label: 'Select Name',
+                  multiSelectTag: 'Names',
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          color: Colors.blue
+                      )
+                  ),
+                  multiSelect: true,
+                  prefixIcon:  Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: Icon(Icons.search),
+                  ),
+                  dropDownMenuItems: listToSearch?.map((item) {
+                    return item['name'];
+                  })?.toList() ??
+                      [],
+                  onChanged: (value){
+                    if(value!=null)
+                    {
+                      selectedList = jsonDecode(value);
+                    }
+                    else{
+                      selectedList.clear();
+                    }
+                  },
+                ),
+              ),
+              Text('Multi Select as Widget',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold
+                ),),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CustomSearchableDropDown(
+                  items: listToSearch,
+                  label: 'Select Name',
+                  multiSelectTag: 'Names',
+                  multiSelectValuesAsWidget: true,
+                  decoration: BoxDecoration(
                     border: Border.all(
-                        color: Colors.blue
+                      color: Colors.blue
                     )
+                  ),
+                  multiSelect: true,
+                  prefixIcon:  Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: Icon(Icons.search),
+                  ),
+                  dropDownMenuItems: listToSearch?.map((item) {
+                    return item['name'];
+                  })?.toList() ??
+                      [],
+                  onChanged: (value){
+                    if(value!=null)
+                    {
+                      selectedList = jsonDecode(value);
+                    }
+                    else{
+                      selectedList.clear();
+                    }
+                  },
                 ),
-                prefixIcon:  Padding(
-                  padding: const EdgeInsets.all(0.0),
-                  child: Icon(Icons.search),
-                ),
-                dropDownMenuItems: listToSearch?.map((item) {
-                  return item['name'];
-                })?.toList() ??
-                    [],
-                onChanged: (value){
-                  if(value!=null)
-                  {
-                    selected = value['class'].toString();
-                  }
-                  else{
-                    selected=null;
-                  }
-                },
               ),
-            ),
-            Text('Select Multiple values show selected value.'),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: customSearchableDropDown(
-                items: listToSearch,
-                label: 'Select Subject',
-                multiSelectValuesAsWidget: true,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Colors.blue
-                    )
-                ),
-                multiSelect: true,
-                prefixIcon:  Padding(
-                  padding: const EdgeInsets.all(0.0),
-                  child: Icon(Icons.search),
-                ),
-                dropDownMenuItems: listToSearch?.map((item) {
-                  return item['name'];
-                })?.toList() ??
-                    [],
-                onChanged: (value){
-                  if(value!=null)
-                  {
-                    selectedList = jsonDecode(value);
-                  }
-                  else{
-                    selectedList.clear();
-                  }
-                },
-              ),
-            ),
-            Text('Select Multiple values'),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: customSearchableDropDown(
-                items: listToSearch,
-                label: 'Select Subject',
-                multiSelectValuesAsWidget: false,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.blue
-                  )
-                ),
-                multiSelect: true,
-                prefixIcon:  Padding(
-                  padding: const EdgeInsets.all(0.0),
-                  child: Icon(Icons.search),
-                ),
-                dropDownMenuItems: listToSearch?.map((item) {
-                  return item['name'];
-                })?.toList() ??
-                    [],
-                onChanged: (value){
-                  if(value!=null)
-                  {
-                    selectedList = jsonDecode(value);
-                  }
-                  else{
-                    selectedList.clear();
-                  }
-                },
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
