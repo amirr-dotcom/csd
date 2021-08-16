@@ -12,13 +12,19 @@ import 'package:flutter/material.dart';
 class CustomSearchableDropDown extends StatefulWidget {
   List items=[];
   List? initialValue;
+  double? searchBarHeight;
   Color? primaryColor;
+  Color? backgroundColor;
+  Color? dropdownBackgroundColor;
+  EdgeInsetsGeometry? padding;
   String? label;
   TextStyle? labelStyle;
+  TextStyle? dropdownLabelStyle;
   String? hint='';
   String? multiSelectTag;
   int? initialIndex;
   Widget? prefixIcon;
+  Widget? suffixIcon;
   bool? hideSearch;
   bool? enabled;
   bool? showClearButton;
@@ -29,6 +35,7 @@ class CustomSearchableDropDown extends StatefulWidget {
   String? itemOnDialogueBox;
   Decoration? decoration;
   List dropDownMenuItems=[];
+  final TextAlign? labelAlign;
   final ValueChanged onChanged;
 
   CustomSearchableDropDown({
@@ -37,13 +44,17 @@ class CustomSearchableDropDown extends StatefulWidget {
     required this.onChanged,
     this.hint,
     this.initialValue,
+    this.labelAlign,
+    this.searchBarHeight,
     this.primaryColor,
+    this.padding,
     this.labelStyle,
     this.enabled,
     this.showClearButton,
     this.itemOnDialogueBox,
     required this.dropDownMenuItems,
     this.prefixIcon,
+    this.suffixIcon,
     this.menuMode,
     this.menuHeight,
     this.initialIndex,
@@ -52,6 +63,9 @@ class CustomSearchableDropDown extends StatefulWidget {
     this.multiSelectValuesAsWidget,
     this.hideSearch,
     this.decoration,
+    this.dropdownLabelStyle,
+    this.backgroundColor,
+    this.dropdownBackgroundColor,
   });
 
   @override
@@ -130,73 +144,75 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown>
               decoration: widget.decoration,
               child: TextButton(
                 style: TextButton.styleFrom(
+                  backgroundColor: widget.backgroundColor,
                   primary: widget.primaryColor?? Colors.black,
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap
                 ),
-                child: Row(
-                  children: [
-                    widget.prefixIcon==null? Container():Padding(
-                      padding: EdgeInsets.fromLTRB(0,0,13,0,),
-                      child: widget.prefixIcon,
-                    ),
-                    ((widget.multiSelect==true && widget.multiSelect!=null) && selectedValues.isNotEmpty)?
-                    Expanded(
-                        child: (widget.multiSelectValuesAsWidget==true && widget.multiSelectValuesAsWidget!=null)?
+                child: Padding(
+                  padding: widget.padding?? EdgeInsets.all(5.0),
+                  child: Row(
+                    children: [
+                      widget.prefixIcon?? Container(),
+                      ((widget.multiSelect==true && widget.multiSelect!=null) && selectedValues.isNotEmpty)?
+                      Expanded(
+                          child: (widget.multiSelectValuesAsWidget==true && widget.multiSelectValuesAsWidget!=null)?
 
-                        Wrap(
-                          children: List.generate(
-                            selectedValues.length,
-                                (index) {
-                              return Padding(
-                                padding: const EdgeInsets.fromLTRB(5,3,5,3),
-                                child: Container(
-                                  decoration: new BoxDecoration(
-                                      color: widget.primaryColor?? Colors.green,
-                                      borderRadius:  BorderRadius.all(Radius.circular(5.0),)
+                          Wrap(
+                            children: List.generate(
+                              selectedValues.length,
+                                  (index) {
+                                return Padding(
+                                  padding: const EdgeInsets.fromLTRB(5,3,5,3),
+                                  child: Container(
+                                    decoration: new BoxDecoration(
+                                        color: widget.primaryColor?? Colors.green,
+                                        borderRadius:  BorderRadius.all(Radius.circular(5.0),)
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(5,2,5,2),
+                                      child: Text(selectedValues[index].split('-_-')[0].toString(),
+                                        style: widget.labelStyle??TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12
+                                        ),),
+                                    ),
                                   ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(5,2,5,2),
-                                    child: Text(selectedValues[index].split('-_-')[0].toString(),
-                                      style: widget.labelStyle??TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 12
-                                      ),),
-                                  ),
-                                ),
-                              );
+                                );
+                              },
+                            ),
+                          )
+                              :Text(selectedValues.length==1? widget.multiSelectTag==null?  selectedValues.length.toString()+' values selected': selectedValues.length.toString()+' '+widget.multiSelectTag!+' selected':
+                          widget.multiSelectTag==null?  selectedValues.length.toString()+' values selected': selectedValues.length.toString()+' '+widget.multiSelectTag!+' selected',
+                            style: widget.labelStyle??TextStyle(
+                                color: Colors.grey
+                            ),)
+                      ):
+                      Expanded(child: Text(onSelectLabel==''? widget.label==null?
+                      'Select Value':widget.label!:onSelectLabel,
+                        textAlign: widget.labelAlign??TextAlign.start,
+                        style:  widget.labelStyle??TextStyle(
+                          color: onSelectLabel==''? Colors.grey[600]:Colors.grey[800],
+                        ),)),
+                      Visibility(
+                          visible: (widget.showClearButton!=null && widget.showClearButton==true && onSelectLabel!=null),
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              primary: widget.primaryColor?? Colors.black
+
+                            ),
+                            child: Icon(Icons.clear,),
+                            onPressed: (){
+                              widget.onChanged(null);
+                              onSelectLabel='';
+                              setState(() {
+
+                              });
                             },
-                          ),
-                        )
-                            :Text(selectedValues.length==1? widget.multiSelectTag==null?  selectedValues.length.toString()+' values selected': selectedValues.length.toString()+' '+widget.multiSelectTag!+' selected':
-                        widget.multiSelectTag==null?  selectedValues.length.toString()+' values selected': selectedValues.length.toString()+' '+widget.multiSelectTag!+' selected',
-                          style: widget.labelStyle??TextStyle(
-                              color: Colors.grey
-                          ),)
-                    ):
-                    Expanded(child: Text(onSelectLabel==''? widget.label==null?
-                    'Select Value':widget.label!:onSelectLabel,
-                      style:  widget.labelStyle??TextStyle(
-                        color: onSelectLabel==''? Colors.grey[600]:Colors.grey[800],
-                      ),)),
-                    Visibility(
-                        visible: (widget.showClearButton!=null && widget.showClearButton==true && onSelectLabel!=null),
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            primary: widget.primaryColor?? Colors.black
-
-                          ),
-                          child: Icon(Icons.clear,),
-                          onPressed: (){
-                            widget.onChanged(null);
-                            onSelectLabel='';
-                            setState(() {
-
-                            });
-                          },
-                        )),
-                    Icon(Icons.arrow_drop_down,
-                      color: widget.items.isEmpty? Colors.grey: Colors.black,)
-                  ],
+                          )),
+                      widget.suffixIcon?? Icon(Icons.arrow_drop_down,
+                        color: widget.primaryColor?? Colors.black,)
+                    ],
+                  ),
                 ),
                 onPressed: (){
                   if(widget.enabled==null || widget.enabled==true)
@@ -232,7 +248,7 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown>
             ),
             SizeTransition(
               sizeFactor: _menuController,
-              child: searchBox(),
+              child: searchBox(setState),
             )
           ],
         ),
@@ -330,7 +346,7 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown>
           ),
           Visibility(
             visible: !(widget.menuMode?? false),
-            child:  searchBox(),
+            child:  searchBox(setState),
           ),
           (widget.menuMode?? false)? SizedBox(
             height: widget.menuHeight??150,
@@ -409,65 +425,68 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown>
 
 
 
-  searchBox(){
+  searchBox(setState){
     return  Visibility(
       visible: widget.hideSearch==null? true:!widget.hideSearch!,
-      child: Padding(
-        padding:  EdgeInsets.all((widget.menuMode?? false)? 0.0:8.0),
-        child: TextField(
-          controller: searchC,
-          autofocus: true,
-          decoration: InputDecoration(
-            fillColor: Colors.white,
-            filled: true,
+      child: SizedBox(
+        height: widget.searchBarHeight,
+        child: Padding(
+          padding:  EdgeInsets.all((widget.menuMode?? false)? 0.0:8.0),
+          child: TextField(
+            controller: searchC,
+            decoration: InputDecoration(
+              fillColor: Colors.white,
+              filled: true,
 
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(5)),
-              borderSide: BorderSide(
-                  color: widget.primaryColor??Colors.grey,
-                  width: 2
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+                borderSide: BorderSide(
+                    color: widget.primaryColor??Colors.grey,
+                    width: 2
+                ),
               ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(5)),
-              borderSide: BorderSide(
-                  color: widget.primaryColor??Colors.grey,
-                  width: 2
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+                borderSide: BorderSide(
+                    color: widget.primaryColor??Colors.grey,
+                    width: 2
+                ),
               ),
-            ),
-            disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(5)),
-              borderSide: BorderSide(
-                  color: widget.primaryColor??Colors.grey,
-                  width: 2
+              disabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+                borderSide: BorderSide(
+                    color: widget.primaryColor??Colors.grey,
+                    width: 2
+                ),
               ),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(5)),
-              borderSide: BorderSide(
-                  color: widget.primaryColor??Colors.grey,
-                  width: 2
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+                borderSide: BorderSide(
+                    color: widget.primaryColor??Colors.grey,
+                    width: 2
+                ),
               ),
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(5)),
-              borderSide: BorderSide(
-                  color: widget.primaryColor??Colors.grey,
-                  width: 2
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+                borderSide: BorderSide(
+                    color: widget.primaryColor??Colors.grey,
+                    width: 2
+                ),
               ),
-            ),
-            suffixIcon: Icon(Icons.search,
-              color: widget.primaryColor?? Colors.black,),
-            contentPadding: EdgeInsets.all(8),
-            hintText: 'Search Here...',
+              suffixIcon: Icon(Icons.search,
+                color: widget.primaryColor?? Colors.black,),
+              contentPadding: EdgeInsets.all(8),
+              hintText: 'Search Here...',
+              isDense: true,
 
+            ),
+            onChanged:(v){
+              onItemChanged(v);
+              setState((){
+
+              });
+            },
           ),
-          onChanged:(v){
-            onItemChanged(v);
-            setState((){
-
-            });
-          },
         ),
       ),
     );
@@ -475,94 +494,100 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown>
 
 
   mainList(setState){
-    return ListView.builder
-      (
-        padding: EdgeInsets.zero,
-        itemCount: newDataList.length,
-        itemBuilder: (BuildContext context, int index) {
-          return TextButton(
-            style: TextButton.styleFrom(
-                primary: widget.primaryColor?? Colors.black,
-                padding: EdgeInsets.all(8),
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap
-            ),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(8,0,8,0),
-              child: Row(
-                children: [
-                  Visibility(
-                    visible: widget.multiSelect?? false,
-                    child: SizedBox(
-                      width: 24,
-                      height: 24,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0,0,8,0,),
-                        child: Checkbox(
-                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            value: selectedValues.contains(newDataList[index])? true: false,
-                            activeColor: Colors.green,
-                            onChanged:(newValue){
-                              if(selectedValues.contains(newDataList[index])){
-                                setState(() {
-                                  selectedValues.remove(newDataList[index]);
-                                });
-                              }
-                              else{
-                                setState(() {
-                                  selectedValues.add(newDataList[index]);
-                                });
-                              }
-                            }),
+    return Scrollbar(
+      interactive: true,
+      child: Container(
+        color: widget.dropdownBackgroundColor,
+        child: ListView.builder
+          (
+            padding: EdgeInsets.zero,
+            itemCount: newDataList.length,
+            itemBuilder: (BuildContext context, int index) {
+              return TextButton(
+                style: TextButton.styleFrom(
+                    primary: widget.primaryColor?? Colors.black,
+                    padding: EdgeInsets.all(8),
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(8,0,8,0),
+                  child: Row(
+                    children: [
+                      Visibility(
+                        visible: widget.multiSelect?? false,
+                        child: SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(0,0,8,0,),
+                            child: Checkbox(
+                                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                value: selectedValues.contains(newDataList[index])? true: false,
+                                activeColor: Colors.green,
+                                onChanged:(newValue){
+                                  if(selectedValues.contains(newDataList[index])){
+                                    setState(() {
+                                      selectedValues.remove(newDataList[index]);
+                                    });
+                                  }
+                                  else{
+                                    setState(() {
+                                      selectedValues.add(newDataList[index]);
+                                    });
+                                  }
+                                }),
+                          ),
+                        ),
                       ),
-                    ),
+                      Expanded(
+                        child: Text(newDataList[index].split('-_-')[0].toString(),
+                          style: widget.dropdownLabelStyle??TextStyle(
+                              color: Colors.grey[700]
+                          ),),
+                      ),
+                    ],
                   ),
-                  Expanded(
-                    child: Text(newDataList[index].split('-_-')[0].toString(),
-                      style: TextStyle(
-                          color: Colors.grey[700]
-                      ),),
-                  ),
-                ],
-              ),
-            ),
-            onPressed: () {
-              if(widget.multiSelect?? false)
-              {
-                if(selectedValues.contains(newDataList[index])){
-                  setState(() {
-                    selectedValues.remove(newDataList[index]);
-                  });
-                }
-                else{
-                  setState(() {
-                    selectedValues.add(newDataList[index]);
-                  });
-                }
-              }
-              else{
-                print('iiiiiiiiiiiiiiiiiiiii');
-                for( int i=0; i<menuData.length; i++)
-                {
-                  if(menuData[i]==newDataList[index])
+                ),
+                onPressed: () {
+                  if(widget.multiSelect?? false)
                   {
-                    onSelectLabel=menuData[i].split('-_-')[0].toString();
-                    widget.onChanged(widget.items[i]);
+                    if(selectedValues.contains(newDataList[index])){
+                      setState(() {
+                        selectedValues.remove(newDataList[index]);
+                      });
+                    }
+                    else{
+                      setState(() {
+                        selectedValues.add(newDataList[index]);
+                      });
+                    }
                   }
-                }
-                if( widget.menuMode?? false)
-                {
-                  _menuController.reverse();
-                }
-                else{
-                  Navigator.pop(context);
-                }
-              }
-              setState((){
+                  else{
+                    print('iiiiiiiiiiiiiiiiiiiii');
+                    for( int i=0; i<menuData.length; i++)
+                    {
+                      if(menuData[i]==newDataList[index])
+                      {
+                        onSelectLabel=menuData[i].split('-_-')[0].toString();
+                        widget.onChanged(widget.items[i]);
+                      }
+                    }
+                    if( widget.menuMode?? false)
+                    {
+                      _menuController.reverse();
+                    }
+                    else{
+                      Navigator.pop(context);
+                    }
+                  }
+                  setState((){
 
-              });
-            },
-          );
-        }
+                  });
+                },
+              );
+            }
+        ),
+      ),
     );
   }
 

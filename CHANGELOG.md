@@ -1,3 +1,14 @@
+## [2.0.6] - 2021-15-07.
+* Label Alignment added.
+* Background color for dropdown and selection box added.
+* Size issue in widget label mode solved.
+
+## [2.0.5] - 2021-15-07.
+* Fixed auto focus issue.
+
+## [2.0.4] - 2021-15-07.
+* Fixed issues in Search an added height and padding.
+
 ## [2.0.3] - 2021-11-06.
 * Null safety is added.
 

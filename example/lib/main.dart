@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:custom_searchable_dropdown/Custom_Searchable_Dropdown.dart';
+import 'package:custom_searchable_dropdown/custom_searchable_dropdown.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -87,6 +87,38 @@ class _MyHomePageState extends State<MyHomePage> {
     {
       'name': 'Izhar',
       'class': 5
+    },
+    {
+      'name': 'Izhar',
+      'class': 5
+    },
+    {
+      'name': 'Izhar',
+      'class': 5
+    },
+    {
+      'name': 'Izhar',
+      'class': 5
+    },
+    {
+      'name': 'Izhar',
+      'class': 5
+    },
+    {
+      'name': 'Izhar',
+      'class': 5
+    },
+    {
+      'name': 'Izhar',
+      'class': 5
+    },
+    {
+      'name': 'Izhar',
+      'class': 5
+    },
+    {
+      'name': 'Izhar',
+      'class': 5
     }
   ];
 
@@ -113,6 +145,9 @@ class _MyHomePageState extends State<MyHomePage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: CustomSearchableDropDown(
+                  dropdownLabelStyle: TextStyle(
+                    color: Colors.red
+                  ),
                   primaryColor: Colors.red,
                   menuMode: true,
                   labelStyle: TextStyle(
@@ -121,10 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   items: listToSearch,
                   label: 'Select Name',
-                  prefixIcon:  Padding(
-                    padding: const EdgeInsets.all(0.0),
-                    child: Icon(Icons.search),
-                  ),
+                  prefixIcon:  Icon(Icons.search),
                   dropDownMenuItems: listToSearch?.map((item) {
                     return item['name'];
                   })?.toList() ??
