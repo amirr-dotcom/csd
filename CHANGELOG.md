@@ -1,4 +1,7 @@
 ## [2.0.7] - 2021-11-15.
+* Scrollable Issue Fixed.
+
+## [2.0.7] - 2021-11-15.
 * Label Styling fixed.
 * Added LAbel In Menu Option.
 

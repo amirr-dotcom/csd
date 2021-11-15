@@ -527,7 +527,6 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown>
 
   mainList(setState){
     return Scrollbar(
-      interactive: true,
       child: Container(
         color: widget.dropdownBackgroundColor,
         child: ListView.builder
