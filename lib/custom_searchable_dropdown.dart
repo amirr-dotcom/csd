@@ -32,6 +32,7 @@ class CustomSearchableDropDown extends StatefulWidget {
   double? menuHeight;
   bool? multiSelect;
   bool? multiSelectValuesAsWidget;
+  bool? showLabelInMenu;
   String? itemOnDialogueBox;
   Decoration? decoration;
   List dropDownMenuItems=[];
@@ -63,6 +64,7 @@ class CustomSearchableDropDown extends StatefulWidget {
     this.multiSelectValuesAsWidget,
     this.hideSearch,
     this.decoration,
+    this.showLabelInMenu,
     this.dropdownLabelStyle,
     this.backgroundColor,
     this.dropdownBackgroundColor,
@@ -119,7 +121,6 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown>
         {
           if(widget.initialValue![0]['id']==widget.items[i][widget.initialValue![0]['param']]){
             onSelectLabel=widget.dropDownMenuItems[i].toString();
-            print(onSelectLabel);
             setState(() {
 
             });
@@ -190,7 +191,9 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown>
                       Expanded(child: Text(onSelectLabel==''? widget.label==null?
                       'Select Value':widget.label!:onSelectLabel,
                         textAlign: widget.labelAlign??TextAlign.start,
-                        style:  widget.labelStyle??TextStyle(
+                        style:  widget.labelStyle!=null?  widget.labelStyle!.copyWith(
+                          color: onSelectLabel==''? Colors.grey[600]:null,
+                        ):TextStyle(
                           color: onSelectLabel==''? Colors.grey[600]:Colors.grey[800],
                         ),)),
                       Visibility(
@@ -280,9 +283,9 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown>
             child: StatefulBuilder(
                 builder: (context,setState)
                 {
-                  return Scaffold(
-                    backgroundColor: Colors.transparent,
-                    body: mainScreen(setState),
+                  return Material(
+                    color: Colors.transparent,
+                    child: mainScreen(setState),
                   );
                 }
 
@@ -304,6 +307,20 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown>
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Visibility(
+              visible: ((widget.showLabelInMenu?? false) &&widget.label!=null),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(widget.label.toString(),
+                  style:  widget.labelStyle!=null?
+                  widget.labelStyle!.copyWith(
+                    color: widget.primaryColor?? Colors.blue,
+                  )
+                      :TextStyle(
+                    color: widget.primaryColor?? Colors.blue,
+                  ),),
+              )
+          ),
+          Visibility(
               visible: widget.multiSelect?? false,
               child: Row(
                 children: [
@@ -313,9 +330,13 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown>
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap
                     ),
                     child: Text('Select All',
-                      style: TextStyle(
+                      style:  widget.labelStyle!=null?
+                      widget.labelStyle!.copyWith(
                         color: widget.primaryColor?? Colors.blue,
-                      ),),
+                      )
+                      :TextStyle(
+                      color: widget.primaryColor?? Colors.blue,
+                    ),),
                     onPressed: (){
                       selectedValues.clear();
                       for(int i=0; i<newDataList.length; i++)
@@ -332,7 +353,11 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown>
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap
                     ),
                     child: Text('Clear All',
-                      style: TextStyle(
+                      style:  widget.labelStyle!=null?
+                      widget.labelStyle!.copyWith(
+                        color: widget.primaryColor?? Colors.blue,
+                      )
+                          :TextStyle(
                         color: widget.primaryColor?? Colors.blue,
                       ),),
                     onPressed: (){
@@ -363,7 +388,11 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown>
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap
                 ),
                 child: Text('Close',
-                  style: TextStyle(
+                  style:  widget.labelStyle!=null?
+                  widget.labelStyle!.copyWith(
+                    color: widget.primaryColor?? Colors.blue,
+                  )
+                      :TextStyle(
                     color: widget.primaryColor?? Colors.blue,
                   ),),
                 onPressed: (){
@@ -387,7 +416,11 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown>
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap
                   ),
                   child: Text('Done',
-                    style: TextStyle(
+                    style:  widget.labelStyle!=null?
+                    widget.labelStyle!.copyWith(
+                      color: widget.primaryColor?? Colors.blue,
+                    )
+                        :TextStyle(
                       color: widget.primaryColor?? Colors.blue,
                     ),),
                   onPressed: (){
@@ -399,7 +432,6 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown>
                         sendList.add(widget.items[i]);
                       }
                     }
-                    print(sendList);
                     widget.onChanged(jsonEncode(sendList));
                     if( widget.menuMode?? false)
                     {
@@ -563,7 +595,6 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown>
                     }
                   }
                   else{
-                    print('iiiiiiiiiiiiiiiiiiiii');
                     for( int i=0; i<menuData.length; i++)
                     {
                       if(menuData[i]==newDataList[index])

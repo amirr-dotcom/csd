@@ -1,3 +1,7 @@
+## [2.0.7] - 2021-11-15.
+* Label Styling fixed.
+* Added LAbel In Menu Option.
+
 ## [2.0.6] - 2021-15-07.
 * Label Alignment added.
 * Background color for dropdown and selection box added.

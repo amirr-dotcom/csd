@@ -145,6 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: CustomSearchableDropDown(
+                  showLabelInMenu: true,
                   dropdownLabelStyle: TextStyle(
                     color: Colors.red
                   ),
