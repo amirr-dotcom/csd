@@ -43,6 +43,8 @@ import 'package:custom_searchable_dropdown/custom_searchable_dropdown.dart';
 #### Menu Mode
 ```dart
     CustomSearchableDropDown(
+                      dropdownHintText: 'Search For Name Here... ',
+                      showLabelInMenu: true,
                       primaryColor: Colors.red,
                       menuMode: true,
                       labelStyle: TextStyle(

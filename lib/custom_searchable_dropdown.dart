@@ -18,8 +18,9 @@ class CustomSearchableDropDown extends StatefulWidget {
   Color? dropdownBackgroundColor;
   EdgeInsetsGeometry? padding;
   String? label;
+  String? dropdownHintText;
   TextStyle? labelStyle;
-  TextStyle? dropdownLabelStyle;
+  TextStyle? dropdownItemStyle;
   String? hint='';
   String? multiSelectTag;
   int? initialIndex;
@@ -65,9 +66,10 @@ class CustomSearchableDropDown extends StatefulWidget {
     this.hideSearch,
     this.decoration,
     this.showLabelInMenu,
-    this.dropdownLabelStyle,
+    this.dropdownItemStyle,
     this.backgroundColor,
     this.dropdownBackgroundColor,
+    this.dropdownHintText,
   });
 
   @override
@@ -508,7 +510,7 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown>
               suffixIcon: Icon(Icons.search,
                 color: widget.primaryColor?? Colors.black,),
               contentPadding: EdgeInsets.all(8),
-              hintText: 'Search Here...',
+              hintText: widget.dropdownHintText?? 'Search Here...',
               isDense: true,
 
             ),
@@ -572,7 +574,7 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown>
                       ),
                       Expanded(
                         child: Text(newDataList[index].split('-_-')[0].toString(),
-                          style: widget.dropdownLabelStyle??TextStyle(
+                          style: widget.dropdownItemStyle??TextStyle(
                               color: Colors.grey[700]
                           ),),
                       ),

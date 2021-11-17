@@ -145,8 +145,9 @@ class _MyHomePageState extends State<MyHomePage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: CustomSearchableDropDown(
+                  dropdownHintText: 'Search For Name Here... ',
                   showLabelInMenu: true,
-                  dropdownLabelStyle: TextStyle(
+                  dropdownItemStyle: TextStyle(
                     color: Colors.red
                   ),
                   primaryColor: Colors.red,
