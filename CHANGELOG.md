@@ -1,11 +1,14 @@
-## [2.0.9] - 2021-11-17.
+## [2.1.0] - 2021-30-11.
+* Hint Text for search bar added.
+
+## [2.0.9] - 2021-11-11.
 * Hint Text for search bar added.
 
 
-## [2.0.8] - 2021-11-15.
+## [2.0.8] - 2021-11-11.
 * Scrollable Issue Fixed.
 
-## [2.0.7] - 2021-11-15.
+## [2.0.7] - 2021-11-11.
 * Label Styling fixed.
 * Added LAbel In Menu Option.
 

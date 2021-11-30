@@ -17,6 +17,7 @@ class CustomSearchableDropDown extends StatefulWidget {
   Color? backgroundColor;
   Color? dropdownBackgroundColor;
   EdgeInsetsGeometry? padding;
+  EdgeInsetsGeometry? menuPadding;
   String? label;
   String? dropdownHintText;
   TextStyle? labelStyle;
@@ -50,6 +51,7 @@ class CustomSearchableDropDown extends StatefulWidget {
     this.searchBarHeight,
     this.primaryColor,
     this.padding,
+    this.menuPadding,
     this.labelStyle,
     this.enabled,
     this.showClearButton,
@@ -281,7 +283,7 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown>
         barrierDismissible: true,
         builder: (context) {
           return Padding(
-            padding: EdgeInsets.all(15),
+            padding: widget.menuPadding?? EdgeInsets.all( 15),
             child: StatefulBuilder(
                 builder: (context,setState)
                 {
@@ -302,122 +304,96 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown>
   }
 
   mainScreen(setState){
-    return Container(
-      color: Colors.white,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Visibility(
-              visible: ((widget.showLabelInMenu?? false) &&widget.label!=null),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(widget.label.toString(),
-                  style:  widget.labelStyle!=null?
-                  widget.labelStyle!.copyWith(
-                    color: widget.primaryColor?? Colors.blue,
-                  )
-                      :TextStyle(
-                    color: widget.primaryColor?? Colors.blue,
-                  ),),
-              )
-          ),
-          Visibility(
-              visible: widget.multiSelect?? false,
-              child: Row(
-                children: [
-                  TextButton(
-                    style: TextButton.styleFrom(
-                        primary: widget.primaryColor??Colors.black,
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap
-                    ),
-                    child: Text('Select All',
-                      style:  widget.labelStyle!=null?
-                      widget.labelStyle!.copyWith(
-                        color: widget.primaryColor?? Colors.blue,
-                      )
-                      :TextStyle(
+    return Padding(
+      padding: widget.menuPadding?? EdgeInsets.all( 0),
+      child: Container(
+        color: Colors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Visibility(
+                visible: ((widget.showLabelInMenu?? false) &&widget.label!=null),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(widget.label.toString(),
+                    style:  widget.labelStyle!=null?
+                    widget.labelStyle!.copyWith(
+                      color: widget.primaryColor?? Colors.blue,
+                    )
+                        :TextStyle(
                       color: widget.primaryColor?? Colors.blue,
                     ),),
-                    onPressed: (){
-                      selectedValues.clear();
-                      for(int i=0; i<newDataList.length; i++)
-                      {
-                        selectedValues.add(newDataList[i]);
-                      }
-                      setState(() {
-                      });
-                    },
-                  ),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                        primary: widget.primaryColor??Colors.black,
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap
-                    ),
-                    child: Text('Clear All',
-                      style:  widget.labelStyle!=null?
-                      widget.labelStyle!.copyWith(
-                        color: widget.primaryColor?? Colors.blue,
-                      )
-                          :TextStyle(
+                )
+            ),
+            Visibility(
+                visible: widget.multiSelect?? false,
+                child: Row(
+                  children: [
+                    TextButton(
+                      style: TextButton.styleFrom(
+                          primary: widget.primaryColor??Colors.black,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap
+                      ),
+                      child: Text('Select All',
+                        style:  widget.labelStyle!=null?
+                        widget.labelStyle!.copyWith(
+                          color: widget.primaryColor?? Colors.blue,
+                        )
+                        :TextStyle(
                         color: widget.primaryColor?? Colors.blue,
                       ),),
-                    onPressed: (){
-                      setState(() {
+                      onPressed: (){
                         selectedValues.clear();
-                      });
-                    },
-                  ),
-                ],
-              )
-          ),
-          Visibility(
-            visible: !(widget.menuMode?? false),
-            child:  searchBox(setState),
-          ),
-          (widget.menuMode?? false)? SizedBox(
-            height: widget.menuHeight??150,
-            child: mainList(setState),
-          ):Expanded(
-            child: mainList(setState),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              TextButton(
-                style: TextButton.styleFrom(
-                  primary: widget.primaryColor??Colors.black,
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap
-                ),
-                child: Text('Close',
-                  style:  widget.labelStyle!=null?
-                  widget.labelStyle!.copyWith(
-                    color: widget.primaryColor?? Colors.blue,
-                  )
-                      :TextStyle(
-                    color: widget.primaryColor?? Colors.blue,
-                  ),),
-                onPressed: (){
-                  if( widget.menuMode?? false)
-                  {
-                    _menuController.reverse();
-                  }
-                  else{
-                    Navigator.pop(context);
-                  }
-                  setState((){
-
-                  });
-                },
-              ),
-              Visibility(
-                visible: (widget.multiSelect?? false),
-                child: TextButton(
+                        for(int i=0; i<newDataList.length; i++)
+                        {
+                          selectedValues.add(newDataList[i]);
+                        }
+                        setState(() {
+                        });
+                      },
+                    ),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                          primary: widget.primaryColor??Colors.black,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap
+                      ),
+                      child: Text('Clear All',
+                        style:  widget.labelStyle!=null?
+                        widget.labelStyle!.copyWith(
+                          color: widget.primaryColor?? Colors.blue,
+                        )
+                            :TextStyle(
+                          color: widget.primaryColor?? Colors.blue,
+                        ),),
+                      onPressed: (){
+                        setState(() {
+                          selectedValues.clear();
+                        });
+                      },
+                    ),
+                  ],
+                )
+            ),
+            Visibility(
+              visible: !(widget.menuMode?? false),
+              child:  searchBox(setState),
+            ),
+            (widget.menuMode?? false)? SizedBox(
+              height: widget.menuHeight??150,
+              child: mainList(setState),
+            ):Expanded(
+              child: mainList(setState),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
                   style: TextButton.styleFrom(
-                      primary: widget.primaryColor??Colors.black,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap
+                    primary: widget.primaryColor??Colors.black,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap
                   ),
-                  child: Text('Done',
+                  child: Text('Close',
                     style:  widget.labelStyle!=null?
                     widget.labelStyle!.copyWith(
                       color: widget.primaryColor?? Colors.blue,
@@ -426,15 +402,6 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown>
                       color: widget.primaryColor?? Colors.blue,
                     ),),
                   onPressed: (){
-                    var sendList=[];
-                    for( int i=0; i<menuData.length; i++)
-                    {
-                      if(selectedValues.contains(menuData[i]))
-                      {
-                        sendList.add(widget.items[i]);
-                      }
-                    }
-                    widget.onChanged(jsonEncode(sendList));
                     if( widget.menuMode?? false)
                     {
                       _menuController.reverse();
@@ -447,10 +414,48 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown>
                     });
                   },
                 ),
-              )
-            ],
-          )
-        ],
+                Visibility(
+                  visible: (widget.multiSelect?? false),
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                        primary: widget.primaryColor??Colors.black,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap
+                    ),
+                    child: Text('Done',
+                      style:  widget.labelStyle!=null?
+                      widget.labelStyle!.copyWith(
+                        color: widget.primaryColor?? Colors.blue,
+                      )
+                          :TextStyle(
+                        color: widget.primaryColor?? Colors.blue,
+                      ),),
+                    onPressed: (){
+                      var sendList=[];
+                      for( int i=0; i<menuData.length; i++)
+                      {
+                        if(selectedValues.contains(menuData[i]))
+                        {
+                          sendList.add(widget.items[i]);
+                        }
+                      }
+                      widget.onChanged(jsonEncode(sendList));
+                      if( widget.menuMode?? false)
+                      {
+                        _menuController.reverse();
+                      }
+                      else{
+                        Navigator.pop(context);
+                      }
+                      setState((){
+
+                      });
+                    },
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
