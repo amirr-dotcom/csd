@@ -1,3 +1,6 @@
+## [2.1.1] - 2021-30-11.
+* Fixed issue of initial values in Multi Select.
+
 ## [2.1.0] - 2021-30-11.
 * Hint Text for search bar added.
 

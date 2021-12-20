@@ -136,32 +136,43 @@ import 'package:custom_searchable_dropdown/custom_searchable_dropdown.dart';
 
 #### Multi Select as Widget
 ```dart
-      CustomSearchableDropDown(
-                      items: listToSearch,
-                      label: 'Select Name',
-                      multiSelectTag: 'Names',
-                      multiSelectValuesAsWidget: true,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.blue
-                        )
-                      ),
-                      multiSelect: true,
-                      prefixIcon:  Padding(
-                        padding: const EdgeInsets.all(0.0),
-                        child: Icon(Icons.search),
-                      ),
-                      dropDownMenuItems: listToSearch?.map((item) {
-                        return item['name'];
-                      })?.toList() ??
-                          [],
-                      onChanged: (value){
-                        if(value!=null)
-                        {
-                          selectedList = jsonDecode(value);
-                        }
-                        else{
-                          selectedList.clear();
-                        }
-                      },
-                    ),"# csd" 
+     CustomSearchableDropDown(
+                  initialValue: [
+                    {
+                      'parameter': 'name',
+                      'value': 'Amir',
+                    },
+                    {
+                      'parameter': 'name',
+                      'value': 'Tazeem',
+                    },
+                  ],
+                  items: listToSearch,
+                  label: 'Select Name',
+                  multiSelectTag: 'Names',
+                  multiSelectValuesAsWidget: true,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.blue
+                    )
+                  ),
+                  multiSelect: true,
+                  prefixIcon:  Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: Icon(Icons.search),
+                  ),
+                  dropDownMenuItems: listToSearch?.map((item) {
+                    return item['name'];
+                  })?.toList() ??
+                      [],
+                  onChanged: (value){
+                    print(value.toString());
+                    if(value!=null)
+                    {
+                      selectedList = jsonDecode(value);
+                    }
+                    else{
+                      selectedList.clear();
+                    }
+                  },
+                ),"# csd" 

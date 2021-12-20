@@ -117,21 +117,71 @@ class _CustomSearchableDropDownState extends State<CustomSearchableDropDown>
     {
       onSelectLabel=widget.dropDownMenuItems[widget.initialIndex!].toString();
     }
-    if(onSelectLabel=='')
-    {
-      if(widget.initialValue!=null && widget.items.isNotEmpty)
-      {
-        for(int i=0;i<widget.items.length; i++)
-        {
-          if(widget.initialValue![0]['id']==widget.items[i][widget.initialValue![0]['param']]){
-            onSelectLabel=widget.dropDownMenuItems[i].toString();
-            setState(() {
 
-            });
+
+    if(widget.multiSelect?? false){
+      if(selectedValues.isEmpty)
+      {
+        if(widget.initialValue!=null && widget.items.isNotEmpty)
+        {
+
+          if(widget.initialValue!=null && widget.initialValue!.isNotEmpty)
+          {
+            selectedValues.clear();
+          }
+
+          for(int i=0;i<widget.items.length; i++)
+          {
+
+              for(int j=0;j<widget.initialValue!.length; j++) {
+                if(widget.initialValue!=null && widget.initialValue!.isNotEmpty)
+                {
+                  if (widget.initialValue![j]['value'] ==
+                      widget.items[i][widget.initialValue![j]['parameter']]) {
+                    selectedValues.add(
+                        widget.dropDownMenuItems[i].toString() + '-_-' +
+                            i.toString());
+                    setState(() {
+
+                    });
+                  }
+                }
+              }
+
+
           }
         }
       }
     }
+    else{
+      if(onSelectLabel=='')
+      {
+        if(widget.initialValue!=null && widget.items.isNotEmpty)
+        {
+
+
+          for(int i=0;i<widget.items.length; i++)
+          {
+
+              if(widget.initialValue!=null && widget.initialValue!.isNotEmpty)
+              {
+                if(widget.initialValue![0]['value']==widget.items[i][widget.initialValue![0]['parameter']]){
+                  onSelectLabel=widget.dropDownMenuItems[i].toString();
+                  setState(() {
+
+                  });
+                }
+              }
+
+          }
+        }
+      }
+
+    }
+
+
+
+
     if(widget.items.isEmpty)
     {
       onSelectLabel='';

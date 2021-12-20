@@ -88,38 +88,6 @@ class _MyHomePageState extends State<MyHomePage> {
       'name': 'Izhar',
       'class': 5
     },
-    {
-      'name': 'Izhar',
-      'class': 5
-    },
-    {
-      'name': 'Izhar',
-      'class': 5
-    },
-    {
-      'name': 'Izhar',
-      'class': 5
-    },
-    {
-      'name': 'Izhar',
-      'class': 5
-    },
-    {
-      'name': 'Izhar',
-      'class': 5
-    },
-    {
-      'name': 'Izhar',
-      'class': 5
-    },
-    {
-      'name': 'Izhar',
-      'class': 5
-    },
-    {
-      'name': 'Izhar',
-      'class': 5
-    }
   ];
 
   var selected;
@@ -147,6 +115,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: CustomSearchableDropDown(
                   dropdownHintText: 'Search For Name Here... ',
                   showLabelInMenu: true,
+                  initialValue: [
+                    {
+                      'parameter': 'name',
+                      'value': 'Amir',
+                    }
+                  ],
                   dropdownItemStyle: TextStyle(
                     color: Colors.red
                   ),
@@ -216,6 +190,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 padding: const EdgeInsets.all(8.0),
                 child: CustomSearchableDropDown(
                   items: listToSearch,
+
                   label: 'Select Name',
                   multiSelectTag: 'Names',
                   decoration: BoxDecoration(
@@ -250,6 +225,16 @@ class _MyHomePageState extends State<MyHomePage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: CustomSearchableDropDown(
+                  initialValue: [
+                    {
+                      'parameter': 'name',
+                      'value': 'Amir',
+                    },
+                    {
+                      'parameter': 'name',
+                      'value': 'Tazeem',
+                    },
+                  ],
                   items: listToSearch,
                   label: 'Select Name',
                   multiSelectTag: 'Names',
@@ -269,6 +254,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   })?.toList() ??
                       [],
                   onChanged: (value){
+                    print(value.toString());
                     if(value!=null)
                     {
                       selectedList = jsonDecode(value);
